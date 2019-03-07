@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+    <div id="hw2-main">
+            <user-table v-bind:listusers="users"></user-table>
+            <user-table v-bind:listusers="inActive"></user-table>
+    </div>
+
+    <template id="user-table">
+        <div>
+            <h2> {{ title }} </h2>
+            <table class="table table-dark">
+                    <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Active</th>
+                              <th scope="col">Avatar</th>
+                            </tr>
+                          </thead>
+                          <tbody v-for="(user, i) in listusers">
+                            <tr>
+                              <th scope="row">{{i}}</th>
+                              <td>{{user.userName}}</td>
+                              <td>{{user.isActive}}</td>
+                              <td>{{user.userAvatar}}</td>
+                            </tr>
+                          </tbody>
+            </table>
+        </div>
+    </template>
+    <template id="user-view">
+
+    </template>
+</body>
+
+<script>
+// ===========================    
+let userTable = {
+    props: {
+        listusers: {
+            type: Array,
+            required: true
+        }
+    },
+    template: '#user-table',
+    data: function() {
+        return {
+            title: "Таблица пользователей"
+        }
+    }        
+}
+
+// ===========================
+let userView = {
+    template: '#user-view',
+    data: function() {
+        return {
+        }
+    }        
+}
+
+// ---------------------------
+let hw2 = new Vue({
+    el: "#hw2-main",
+    components: {
+        'user-table': userTable,
+        'user-view': userView
+    },
+    data: function(){
+        return {
+            users: [
+                { userName: "user1", isActive: true, userAvatar: ""},
+                { userName: "user2", isActive: true, userAvatar: ""},
+                { userName: "user3", isActive: true, userAvatar: ""},
+                { userName: "user4", isActive: true, userAvatar: ""},
+                { userName: "user5", isActive: true, userAvatar: ""},
+                { userName: "user6", isActive: false, userAvatar: ""},
+                { userName: "user7", isActive: false, userAvatar: ""},
+                { userName: "user8", isActive: false, userAvatar: ""},
+            ]
+        }
+    },
+    computed: {
+        inActive() {
+            return this.users.filter(function(item){
+                return item.isActive !== true
+            })
+        }
+    }
+
+})
+</script>
